@@ -3,20 +3,27 @@ package main
 import (
 	"fmt"
 
-	"github.com/terratensor/segment"
+	"github.com/terratensor/segment/rule"
+	"github.com/terratensor/segment/split"
+	"github.com/terratensor/segment/tokenizer"
 )
 
 func main() {
-	text := "Кружка-термос на 0.5л (50/64 см³, 516;...)"
+	splitter := split.NewSplitter(3)
+	rules := []rule.Rule{
+		// rule.DashRule{},
+		// rule.FloatRule{},
+		// rule.FractionRule{},
+		// rule.UnderscoreRule{},
+		// rule.PunctRule{},
+		rule.OtherRule{},
+		// rule.YahooRule{},
+	}
 
-	// Создаём TokenSplitter с окном 3
-	splitter := segment.NewTokenSplitter(3)
+	tokenizer := tokenizer.NewTokenizer(splitter, rules)
+	tokens := tokenizer.Tokenize("Кружка-термос на 0.5л (50/64 см³, 516;...)")
 
-	// Разбиваем текст на TokenSplit
-	splits := splitter.Split(text)
-
-	// Выводим результаты
-	for _, split := range splits {
-		fmt.Printf("Left: %v, Delimiter: %q, Right: %v\n", split.LeftAtoms, split.Delimiter, split.RightAtoms)
+	for _, token := range tokens {
+		fmt.Println(token)
 	}
 }
