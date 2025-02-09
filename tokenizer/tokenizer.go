@@ -27,9 +27,11 @@ func (t *Tokenizer) Tokenize(text string) []segment.Segment {
 	var buffer string
 	start := 0
 
-	// Добавляем первый сегмент в буфер, иначе мы его потеряем.
+	// Добавляем первый токен, если он есть
 	if len(splits) > 0 {
-		buffer += splits[0].Left1().Text
+		firstSplit := splits[0]
+		buffer = firstSplit.Left1().Text
+		start = firstSplit.Left1().Start
 	}
 
 	for _, split := range splits {
