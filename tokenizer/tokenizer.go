@@ -1,8 +1,8 @@
 package tokenizer
 
 import (
-	"github.com/terratensor/segment"
 	"github.com/terratensor/segment/rule"
+	"github.com/terratensor/segment/segment"
 	"github.com/terratensor/segment/split"
 )
 

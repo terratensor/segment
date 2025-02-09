@@ -17,49 +17,49 @@ func NewTokenSplit(leftAtoms []Atom, delimiter string, rightAtoms []Atom) TokenS
 }
 
 // Left1 возвращает последний атом из LeftAtoms.
-func (ts TokenSplit) Left1() Atom {
+func (ts TokenSplit) Left1() *Atom {
 	if len(ts.LeftAtoms) > 0 {
-		return ts.LeftAtoms[len(ts.LeftAtoms)-1]
+		return &ts.LeftAtoms[len(ts.LeftAtoms)-1]
 	}
-	return Atom{}
+	return nil
 }
 
 // Left2 возвращает предпоследний атом из LeftAtoms.
-func (ts TokenSplit) Left2() Atom {
+func (ts TokenSplit) Left2() *Atom {
 	if len(ts.LeftAtoms) > 1 {
-		return ts.LeftAtoms[len(ts.LeftAtoms)-2]
+		return &ts.LeftAtoms[len(ts.LeftAtoms)-2]
 	}
-	return Atom{}
+	return nil
 }
 
 // Left3 возвращает третий с конца атом из LeftAtoms.
-func (ts TokenSplit) Left3() Atom {
+func (ts TokenSplit) Left3() *Atom {
 	if len(ts.LeftAtoms) > 2 {
-		return ts.LeftAtoms[len(ts.LeftAtoms)-3]
+		return &ts.LeftAtoms[len(ts.LeftAtoms)-3]
 	}
-	return Atom{}
+	return nil
 }
 
 // Right1 возвращает первый атом из RightAtoms.
-func (ts TokenSplit) Right1() Atom {
+func (ts TokenSplit) Right1() *Atom {
 	if len(ts.RightAtoms) > 0 {
-		return ts.RightAtoms[0]
+		return &ts.RightAtoms[0]
 	}
-	return Atom{}
+	return nil
 }
 
 // Right2 возвращает второй атом из RightAtoms.
-func (ts TokenSplit) Right2() Atom {
+func (ts TokenSplit) Right2() *Atom {
 	if len(ts.RightAtoms) > 1 {
-		return ts.RightAtoms[1]
+		return &ts.RightAtoms[1]
 	}
-	return Atom{}
+	return nil
 }
 
 // Right3 возвращает третий атом из RightAtoms.
-func (ts TokenSplit) Right3() Atom {
+func (ts TokenSplit) Right3() *Atom {
 	if len(ts.RightAtoms) > 2 {
-		return ts.RightAtoms[2]
+		return &ts.RightAtoms[2]
 	}
-	return Atom{}
+	return nil
 }

@@ -15,7 +15,7 @@ func main() {
 		// rule.FloatRule{},
 		// rule.FractionRule{},
 		// rule.UnderscoreRule{},
-		// rule.PunctRule{},
+		rule.PunctRule{},
 		rule.OtherRule{},
 		// rule.YahooRule{},
 	}

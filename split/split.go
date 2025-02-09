@@ -1,6 +1,6 @@
 package split
 
-import "github.com/terratensor/segment"
+import "github.com/terratensor/segment/segment"
 
 // Splitter представляет интерфейс для разбиения текста на атомы.
 type Splitter interface {
