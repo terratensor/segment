@@ -1,9 +1,19 @@
 package rule
 
-import "github.com/terratensor/segment/segment"
+import (
+	"github.com/terratensor/segment/segment"
+)
+
+// Rule2112Interface определяет методы, которые должны быть реализованы в дочерних правилах.
+type Rule2112Interface interface {
+	delimiter(text string) bool
+	rule(left, right *segment.Atom) bool
+}
 
 // Rule2112 представляет базовое правило для работы с разделителями.
-type Rule2112 struct{}
+type Rule2112 struct {
+	Rule2112Interface
+}
 
 // Apply применяет правило к TokenSplit.
 func (r Rule2112) Apply(split segment.TokenSplit) bool {
@@ -24,16 +34,4 @@ func (r Rule2112) getLeftRight(split segment.TokenSplit) (*segment.Atom, *segmen
 		return split.Left1(), split.Right2()
 	}
 	return nil, nil
-}
-
-// delimiter определяет, является ли текст разделителем.
-func (r Rule2112) delimiter(text string) bool {
-	// Этот метод должен быть переопределён в дочерних правилах.
-	return false
-}
-
-// rule определяет, нужно ли объединять токены.
-func (r Rule2112) rule(left, right *segment.Atom) bool {
-	// Этот метод должен быть переопределён в дочерних правилах.
-	return false
 }

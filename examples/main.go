@@ -11,17 +11,17 @@ import (
 func main() {
 	splitter := split.NewSplitter(3)
 	rules := []rule.Rule{
-		// rule.DashRule{},
-		// rule.FloatRule{},
-		// rule.FractionRule{},
-		// rule.UnderscoreRule{},
+		rule.NewDashRule(),
+		rule.NewFloatRule(),
+		rule.NewFractionRule(),
+		rule.NewUnderscoreRule(),
 		rule.PunctRule{},
 		rule.OtherRule{},
-		// rule.YahooRule{},
+		rule.YahooRule{},
 	}
 
 	tokenizer := tokenizer.NewTokenizer(splitter, rules)
-	tokens := tokenizer.Tokenize("Кружка-термос на 0.5л (50/64 см³, 516;...)")
+	tokens := tokenizer.Tokenize("Кружка-термос  что-то ружка-термос что-то на Кружка-термос привет мир что-то ни так  0.5л (50/64 см³, 516;...) привет_мир :=)")
 
 	for _, token := range tokens {
 		fmt.Println(token)
