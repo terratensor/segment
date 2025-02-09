@@ -9,7 +9,7 @@ import (
 // Константы для символов
 const (
 	Endings       = ".?!…"
-	Dashes        = "‑–—−-"
+	Dashes        = "‑–—−\\-"
 	OpenQuotes    = "«“‘"
 	CloseQuotes   = "»”’"
 	GenericQuotes = "\"„'"
@@ -179,4 +179,149 @@ func (ts TokenSplit) Right3() Atom {
 		return ts.RightAtoms[2]
 	}
 	return Atom{}
+}
+
+// Реализация TokenSplitter
+// 1. Структура TokenSplitter
+
+// TokenSplitter разбивает текст на атомы и генерирует TokenSplit.
+type TokenSplitter struct {
+	Window int // Размер окна для анализа атомов
+}
+
+// NewTokenSplitter создаёт новый экземпляр TokenSplitter.
+func NewTokenSplitter(window int) TokenSplitter {
+	return TokenSplitter{
+		Window: window,
+	}
+}
+
+// Split разбивает текст на атомы и генерирует TokenSplit.
+func (ts TokenSplitter) Split(text string) []TokenSplit {
+	atoms := Atoms(text)
+	var splits []TokenSplit
+
+	for i := range atoms {
+		if i > 0 {
+			previous := atoms[i-1]
+			delimiter := string([]rune(text)[previous.Stop:atoms[i].Start])
+			left := atoms[max(0, i-ts.Window):i]
+			right := atoms[i:min(i+ts.Window, len(atoms))]
+			splits = append(splits, NewTokenSplit(left, delimiter, right))
+		}
+	}
+
+	return splits
+}
+
+// max возвращает максимальное из двух чисел.
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+// min возвращает минимальное из двух чисел.
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+
+// 2. Реализация правил
+// Пример реализации правила other
+
+// Rule представляет интерфейс для правил объединения токенов.
+type Rule interface {
+	Apply(split TokenSplit) bool
+}
+
+// OtherRule реализует правило для объединения токенов типа OTHER.
+type OtherRule struct{}
+
+// Apply применяет правило к TokenSplit.
+func (r OtherRule) Apply(split TokenSplit) bool {
+	left := split.Left1().Type
+	right := split.Right1().Type
+
+	if left == Other && (right == Other || right == Ru || right == Lat) {
+		return true // JOIN
+	}
+
+	if (left == Other || left == Ru || left == Lat) && right == Other {
+		return true // JOIN
+	}
+
+	return false // SPLIT
+}
+
+// Реализация Segment и TokenSegmenter
+
+// Segment представляет сегмент текста.
+type Segment struct {
+	Text  string
+	Start int
+	End   int
+}
+
+// TokenSegmenter выполняет токенизацию текста с применением правил.
+type TokenSegmenter struct {
+	splitter TokenSplitter
+	rules    []Rule
+}
+
+// NewTokenSegmenter создаёт новый экземпляр TokenSegmenter.
+func NewTokenSegmenter(window int, rules []Rule) TokenSegmenter {
+	return TokenSegmenter{
+		splitter: NewTokenSplitter(window),
+		rules:    rules,
+	}
+}
+
+// Segment выполняет токенизацию текста.
+func (ts TokenSegmenter) Segment(text string) []Segment {
+	splits := ts.splitter.Split(text)
+	var segments []Segment
+	var buffer string
+	start := 0
+
+	for _, split := range splits {
+		if ts.shouldJoin(split) {
+			buffer += split.Delimiter + split.Right1().Text
+		} else {
+			if buffer != "" {
+				segments = append(segments, Segment{
+					Text:  buffer,
+					Start: start,
+					End:   start + len(buffer),
+				})
+				buffer = ""
+			}
+			buffer = split.Right1().Text
+			start = split.Right1().Start
+		}
+	}
+
+	if buffer != "" {
+		segments = append(segments, Segment{
+			Text:  buffer,
+			Start: start,
+			End:   start + len(buffer),
+		})
+	}
+
+	return segments
+}
+
+// shouldJoin определяет, нужно ли объединять токены.
+func (ts TokenSegmenter) shouldJoin(split TokenSplit) bool {
+	for _, rule := range ts.rules {
+		if rule.Apply(split) {
+			return true
+		}
+	}
+	return false
 }
