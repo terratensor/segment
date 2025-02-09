@@ -27,6 +27,11 @@ func (t *Tokenizer) Tokenize(text string) []segment.Segment {
 	var buffer string
 	start := 0
 
+	// Добавляем первый сегмент в буфер, иначе мы его потеряем.
+	if len(splits) > 0 {
+		buffer += splits[0].Left1().Text
+	}
+
 	for _, split := range splits {
 		if t.shouldJoin(split) {
 			buffer += split.Delimiter + split.Right1().Text
