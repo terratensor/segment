@@ -24,6 +24,25 @@ package main
 
 import (
 	"fmt"
+	"github.com/terratensor/segment"
+)
+
+func main() {
+	tokenizer := segment.NewTokenizer()
+	tokens := tokenizer.Tokenize("Кружка-термос на 0.5л (50/64 см³, 516;...)")
+
+	for _, token := range tokens {
+		fmt.Printf("Token: %q, Start: %d, End: %d\n", token.Text, token.Start, token.End)
+	}
+}
+
+```
+### Пример использования с указанием подключенных правил
+```go
+package main
+
+import (
+	"fmt"
 	"github.com/terratensor/segment/rule"
 	"github.com/terratensor/segment/split"
 	"github.com/terratensor/segment/tokenizer"
@@ -57,3 +76,7 @@ func main() {
 ## Благодарности
 
 Этот проект вдохновлён библиотекой [razdel](https://github.com/natasha/razdel) на Python, разработанной [Natasha](https://github.com/natasha). Мы выражаем благодарность авторам оригинального проекта за их работу.
+
+---
+
+[![Go Reference](https://pkg.go.dev/badge/github.com/terratensor/segment.svg)](https://pkg.go.dev/github.com/terratensor/segment)
