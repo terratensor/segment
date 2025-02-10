@@ -34,7 +34,7 @@ const (
 var (
 	// ATOM разбивает текст на атомы (слова, числа, знаки препинания и другие символы).
 	ATOM = regexp.MustCompile(
-		`(?P<RU>[а-яё]+)|(?P<LAT>[a-z]+)|(?P<INT>\d+)|(?P<PUNCT>[` + regexp.QuoteMeta(Puncts) + `])|(?P<OTHER>\S)`,
+		`(?i)(?P<RU>[а-яё]+)|(?P<LAT>[a-z]+)|(?P<INT>\d+)|(?P<PUNCT>[` + regexp.QuoteMeta(Puncts) + `])|(?P<OTHER>\S)`,
 	)
 )
 
