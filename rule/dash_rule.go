@@ -18,7 +18,9 @@ func NewDashRule() Rule {
 
 // delimiter определяет, является ли текст дефисом.
 func (r DashRule) delimiter(text string) bool {
-	return strings.Contains(segment.Dashes, text)
+	// Очищаем константу Dashes от символов экранирования
+	cleanDashes := cleanDashes(segment.Dashes)
+	return strings.Contains(cleanDashes, text)
 }
 
 // rule определяет, нужно ли объединять токены.
@@ -27,4 +29,9 @@ func (r DashRule) rule(left, right *segment.Atom) bool {
 		return false
 	}
 	return true
+}
+
+// cleanDashes удаляет символы экранирования из строки
+func cleanDashes(input string) string {
+	return strings.ReplaceAll(input, `\`, "")
 }
