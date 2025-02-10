@@ -1,6 +1,8 @@
 package tokenizer
 
 import (
+	"unicode/utf8"
+
 	"github.com/terratensor/segment/rule"
 	"github.com/terratensor/segment/segment"
 	"github.com/terratensor/segment/split"
@@ -34,15 +36,17 @@ func (t *Tokenizer) Tokenize(text string) []segment.Segment {
 		start = firstSplit.Left1().Start
 	}
 
+	// Обрабатываем остальные токены
 	for _, split := range splits {
-		if t.shouldJoin(split) {
-			buffer += split.Delimiter + split.Right1().Text
+		if split.Delimiter == "" && t.shouldJoin(split) {
+			// Объединяем токены, добавляя только правый токен
+			buffer += split.Right1().Text
 		} else {
 			if buffer != "" {
 				segments = append(segments, segment.Segment{
 					Text:  buffer,
 					Start: start,
-					End:   start + len(buffer),
+					End:   start + utf8.RuneCountInString(buffer),
 				})
 				buffer = ""
 			}
@@ -51,11 +55,12 @@ func (t *Tokenizer) Tokenize(text string) []segment.Segment {
 		}
 	}
 
+	// Добавляем последний токен, если он есть
 	if buffer != "" {
 		segments = append(segments, segment.Segment{
 			Text:  buffer,
 			Start: start,
-			End:   start + len(buffer),
+			End:   start + utf8.RuneCountInString(buffer),
 		})
 	}
 
