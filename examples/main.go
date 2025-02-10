@@ -21,7 +21,7 @@ func main() {
 	}
 
 	tokenizer := tokenizer.NewTokenizer(splitter, rules)
-	tokens := tokenizer.Tokenize("Кружка-термос  что-то ружка-термос что-то на Кружка-термос привет мир что-то ни так  0.5л (50/64 см³, 516;...) привет_мир :=)")
+	tokens := tokenizer.Tokenize("Кружка-термос Турист на 0.5л (50/64 см³, 516;...) ")
 
 	for _, token := range tokens {
 		fmt.Println(token)
