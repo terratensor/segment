@@ -10,6 +10,11 @@ import (
 // PunctRule реализует правило для знаков препинания.
 type PunctRule struct{}
 
+// NewPunctRule создаёт новое правило для знаков препинания.
+func NewPunctRule() Rule {
+	return PunctRule{}
+}
+
 // Apply применяет правило к TokenSplit.
 func (r PunctRule) Apply(split segment.TokenSplit) bool {
 	if split.Left1().Type != segment.Punct || split.Right1().Type != segment.Punct {

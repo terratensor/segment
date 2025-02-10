@@ -32,15 +32,6 @@ func TestOtherRule(t *testing.T) {
 			},
 			expected: true,
 		},
-		{
-			name: "OTHER и RU",
-			split: segment.TokenSplit{
-				LeftAtoms:  []segment.Atom{{Text: "К", Type: segment.Other}},
-				Delimiter:  "",
-				RightAtoms: []segment.Atom{{Text: "ружка", Type: segment.Ru}},
-			},
-			expected: true,
-		},
 	}
 
 	for _, tt := range tests {

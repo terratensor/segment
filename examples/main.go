@@ -15,15 +15,15 @@ func main() {
 		rule.NewFloatRule(),
 		rule.NewFractionRule(),
 		rule.NewUnderscoreRule(),
-		rule.PunctRule{},
-		rule.OtherRule{},
-		rule.YahooRule{},
+		rule.NewPunctRule(),
+		rule.NewOtherRule(),
+		rule.NewYahooRule(),
 	}
 
 	tokenizer := tokenizer.NewTokenizer(splitter, rules)
-	tokens := tokenizer.Tokenize("Кружка-термос Турист на 0.5л (50/64 см³, 516;...) ")
+	tokens := tokenizer.Tokenize("Кружка-термос на 0.5л (50/64 см³, 516;...)")
 
 	for _, token := range tokens {
-		fmt.Println(token)
+		fmt.Printf("Token: %q, Start: %d, End: %d\n", token.Text, token.Start, token.End)
 	}
 }

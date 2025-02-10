@@ -5,6 +5,11 @@ import "github.com/terratensor/segment/segment"
 // OtherRule реализует правило для других символов.
 type OtherRule struct{}
 
+// NewPunctRule создаёт новое правило для других символов.
+func NewOtherRule() Rule {
+	return OtherRule{}
+}
+
 // Apply применяет правило к TokenSplit.
 func (r OtherRule) Apply(split segment.TokenSplit) bool {
 	left := split.Left1().Type
