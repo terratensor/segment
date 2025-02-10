@@ -24,6 +24,10 @@ func (ts TokenSplitter) Split(text string) []TokenSplit {
 			left := atoms[max(0, i-ts.Window):i]
 			right := atoms[i:min(i+ts.Window, len(atoms))]
 			splits = append(splits, NewTokenSplit(left, delimiter, right))
+		} else {
+			// left := atoms[max(0, i-ts.Window):i]
+			right := atoms[i:min(i+ts.Window, len(atoms))]
+			splits = append(splits, NewTokenSplit(nil, "", right))
 		}
 	}
 
