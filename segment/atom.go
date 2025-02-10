@@ -8,43 +8,40 @@ import (
 
 // Константы для символов
 const (
-	Endings       = ".?!…"
-	Dashes        = "‑–—−\\-"
-	OpenQuotes    = "«“‘"
-	CloseQuotes   = "»”’"
-	GenericQuotes = "\"„'"
-	Quotes        = OpenQuotes + CloseQuotes + GenericQuotes
-	OpenBrackets  = "([{"
-	CloseBrackets = ")]}"
-	Brackets      = OpenBrackets + CloseBrackets
-	Bounds        = Quotes + Brackets
-	Puncts        = `\/!#$%&*+,.:;<=>?@^_` + "`|~№…" + Dashes + Quotes + Brackets
+	Endings       = ".?!…"                                                        // Знаки окончания предложений
+	Dashes        = "‑–—−\\-"                                                     // Различные типы дефисов
+	OpenQuotes    = "«“‘"                                                         // Открывающие кавычки
+	CloseQuotes   = "»”’"                                                         // Закрывающие кавычки
+	GenericQuotes = "\"„'"                                                        // Универсальные кавычки
+	Quotes        = OpenQuotes + CloseQuotes + GenericQuotes                      // Все типы кавычек
+	OpenBrackets  = "([{"                                                         // Открывающие скобки
+	CloseBrackets = ")]}"                                                         // Закрывающие скобки
+	Brackets      = OpenBrackets + CloseBrackets                                  // Все типы скобок
+	Bounds        = Quotes + Brackets                                             // Все граничные символы
+	Puncts        = `\/!#$%&*+,.:;<=>?@^_` + "`|~№…" + Dashes + Quotes + Brackets // Все знаки препинания
 )
 
 // Константы для типов атомов
 const (
-	Ru    = "RU"
-	Lat   = "LAT"
-	Int   = "INT"
-	Punct = "PUNCT"
-	Other = "OTHER"
+	Ru    = "RU"    // Русский текст
+	Lat   = "LAT"   // Латинский текст
+	Int   = "INT"   // Цифры
+	Punct = "PUNCT" // Знаки препинания
+	Other = "OTHER" // Другие символы
 )
 
-// Регулярные выражения
-var (
-	// ATOM разбивает текст на атомы (слова, числа, знаки препинания и другие символы).
-	ATOM = regexp.MustCompile(
-		`(?i)(?P<RU>[а-яё]+)|(?P<LAT>[a-z]+)|(?P<INT>\d+)|(?P<PUNCT>[` + regexp.QuoteMeta(Puncts) + `])|(?P<OTHER>\S)`,
-	)
+// ATOM разбивает текст на атомы (слова, числа, знаки препинания и другие символы).
+var ATOM = regexp.MustCompile(
+	`(?i)(?P<RU>[а-яё]+)|(?P<LAT>[a-z]+)|(?P<INT>\d+)|(?P<PUNCT>[` + regexp.QuoteMeta(Puncts) + `])|(?P<OTHER>\S)`,
 )
 
 // Atom представляет минимальную единицу текста.
 type Atom struct {
-	Start  int
-	Stop   int
-	Type   string
-	Text   string
-	Normal string
+	Start  int    // Начальная позиция атома в тексте
+	Stop   int    // Конечная позиция атома в тексте
+	Type   string // Тип атома (RU, LAT, INT, PUNCT, OTHER)
+	Text   string // Текст атома
+	Normal string // Нормализованный текст (в нижнем регистре)
 }
 
 // FindAllRuneSubmatchIndex находит все совпадения регулярного выражения в тексте и возвращает позиции в рунах.
