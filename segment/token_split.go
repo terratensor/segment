@@ -2,12 +2,15 @@ package segment
 
 // TokenSplit представляет разбиение текста на левую и правую части.
 type TokenSplit struct {
-	LeftAtoms  []Atom
-	RightAtoms []Atom
-	Delimiter  string
+	LeftAtoms  []Atom // Атомы слева от разделителя
+	RightAtoms []Atom // Атомы справа от разделителя
+	Delimiter  string // Разделитель между левой и правой частями
 }
 
 // NewTokenSplit создаёт новый экземпляр TokenSplit.
+// leftAtoms — атомы слева от разделителя.
+// delimiter — разделитель между левой и правой частями.
+// rightAtoms — атомы справа от разделителя.
 func NewTokenSplit(leftAtoms []Atom, delimiter string, rightAtoms []Atom) TokenSplit {
 	return TokenSplit{
 		LeftAtoms:  leftAtoms,

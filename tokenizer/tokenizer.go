@@ -10,11 +10,13 @@ import (
 
 // Tokenizer выполняет токенизацию текста с применением правил.
 type Tokenizer struct {
-	splitter split.Splitter
-	rules    []rule.Rule
+	splitter split.Splitter // Разбиватель текста на атомы
+	rules    []rule.Rule    // Список правил для объединения токенов
 }
 
 // NewTokenizer создаёт новый экземпляр Tokenizer.
+// splitter используется для разбиения текста на атомы.
+// rules — это список правил для объединения токенов.
 func NewTokenizer(splitter split.Splitter, rules []rule.Rule) *Tokenizer {
 	return &Tokenizer{
 		splitter: splitter,
@@ -23,6 +25,7 @@ func NewTokenizer(splitter split.Splitter, rules []rule.Rule) *Tokenizer {
 }
 
 // Tokenize выполняет токенизацию текста.
+// Возвращает список сегментов, каждый из которых представляет токен.
 func (t *Tokenizer) Tokenize(text string) []segment.Segment {
 	splits := t.splitter.Split(text)
 	var segments []segment.Segment
