@@ -37,6 +37,7 @@ func main() {
 }
 
 ```
+
 ### Пример использования с указанием подключенных правил
 ```go
 package main
@@ -67,6 +68,22 @@ func main() {
 		fmt.Printf("Token: %q, Start: %d, End: %d\n", token.Text, token.Start, token.End)
 	}
 }
+```
+### Результат
+```bash
+go run ./examples/
+Token: "Кружка-термос", Start: 0, End: 13
+Token: "на", Start: 14, End: 16
+Token: "0.5", Start: 17, End: 20
+Token: "л", Start: 20, End: 21
+Token: "(", Start: 22, End: 23
+Token: "50/64", Start: 23, End: 28
+Token: "см³", Start: 29, End: 32
+Token: ",", Start: 32, End: 33
+Token: "516", Start: 34, End: 37
+Token: ";", Start: 37, End: 38
+Token: "...", Start: 38, End: 41
+Token: ")", Start: 41, End: 42
 ```
 
 ## Пакеты
