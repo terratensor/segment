@@ -37,6 +37,17 @@ func (t *Tokenizer) Tokenize(text string) []segment.Segment {
 		firstSplit := splits[0]
 		buffer = firstSplit.Left1().Text
 		start = firstSplit.Left1().Start
+
+	}
+
+	// Если в первом токене нет правого атома, значит атом всего один создаем сегмент и возвращаем его.
+	if splits[0].Right1() == nil {
+		segments = append(segments, segment.Segment{
+			Text:  buffer,
+			Start: start,
+			End:   start + utf8.RuneCountInString(buffer),
+		})
+		return segments
 	}
 
 	// Обрабатываем остальные токены
