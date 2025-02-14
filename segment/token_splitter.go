@@ -17,6 +17,11 @@ func (ts TokenSplitter) Split(text string) []TokenSplit {
 	atoms := Atoms(text)
 	var splits []TokenSplit
 
+	if len(atoms) == 1 {
+		// Если атомов всего 1, то генерируем TokenSplit
+		return append(splits, NewTokenSplit(atoms[0:], "", atoms[0:0]))
+	}
+
 	for i := range atoms {
 		if i > 0 {
 			previous := atoms[i-1]
